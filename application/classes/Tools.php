@@ -1,4 +1,5 @@
-<?php
+<?php defined('SYSPATH') or die('No direct access allowed.');
+
 /**
  * Common functions that many modules will need to reference.
  */
@@ -117,6 +118,57 @@ class Tools {
 	public static function object2array($object)
 	{
 		return @json_decode(@json_encode($object),1);
+	}
+	/*
+	 * CURL Data collector which is a simulation browser
+	 * 
+	 */
+	public static function curl($url,$param = array(),$lifetime = 3600, $referer = NULL, $ua = NULL)
+	{
+		$key = $url.implode('-',$param);
+		$ua == NULL && $ua = self::_gen_ua();  
+		
+		if(isset($_GET['flush']) || !$body = Cache::instance()->get($key, FALSE))
+		{
+			$request = Request::factory($url);
+			$request->method(Request::GET);
+			if(!empty($param))
+			{
+				$param+=$request->query();
+				$request->query($param);
+			}
+			if($referer == NULL)
+			{
+				$_url = parse_url($url);
+				$referer = $_url['scheme'] . '://' . $_url['host'];
+			}
+			$request->client()->options(array(
+					CURLOPT_TIMEOUT => 60,
+					CURLOPT_USERAGENT => $ua,					
+					CURLOPT_REFERER => $referer,					
+					CURLOPT_ENCODING => '' ,
+			));
+			$body = $request->execute()->body();
+			Cache::instance()->set($key, $body,$lifetime);
+	
+		}
+	
+		return  $body;
+	}
+	/**
+	 * Generate a random ua string
+	 * @return string
+	 * UA String
+	 */
+	private static function _gen_ua()
+	{
+		$ua[] = "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.79 Safari/535.11";
+		$ua[] = "Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.19) Gecko/20110707 Firefox/3.6.19";
+		$ua[] = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.168 Safari/535.19";
+		$ua[] = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; InfoPath.3; .NET4.0C; Tablet PC 2.0)";
+		$ua[] = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; InfoPath.3; .NET4.0C; Tablet PC 2.0; SE 2.X MetaSr 1.0)";
+		$rand = count($ua)-1;
+		return $ua[rand(0,$rand)]	;
 	}
 }
 

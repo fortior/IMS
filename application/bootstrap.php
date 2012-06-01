@@ -116,6 +116,7 @@ Kohana::modules(array(
 	'orm'        => MODPATH.'orm',        // Object Relationship Mapping
 	'unittest'   => MODPATH.'unittest',   // Unit testing
 	'userguide'  => MODPATH.'userguide',  // User guide and API documentation	
+	'das'  => MODPATH.'das',  // User guide and API documentation	
 	));
 
 /**
@@ -127,3 +128,5 @@ Route::set('default', '(<controller>(/<action>(/<id>)))')
 		'controller' => 'Welcome',
 		'action'     => 'index',
 	));
+Cache::$default = ( Kohana::$environment == Kohana::PRODUCTION)?'memcache':'file';
+Cookie::$salt = 'SALT';

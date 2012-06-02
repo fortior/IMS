@@ -8,3 +8,6 @@ coverage
 kohana_release
 nbproject
 build
+.buildpath
+.project
+.settings

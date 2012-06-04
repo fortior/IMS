@@ -11,6 +11,7 @@ class Controller_Live_QQ extends Controller_Live_Core{
 	{
 		$data = $this->collect();
 		
+		echo Debug::vars($data);
 		if($data)
 		{
 			//reset available to false first
@@ -19,7 +20,7 @@ class Controller_Live_QQ extends Controller_Live_Core{
 		foreach($data as $k=>$v)
 		{
 			//update or insert to db
-			$links = ORM::factory("Live_Links")->where('vid','=',$v['vid'])->where('type','=','QQ')->find();
+			$links = ORM::factory("Live_Links")->where('vid','=',$v['vid'])->where('type','=',$this->type)->find();
 			$links->vid = $v['vid'];
 			$links->title = $v['title'];
 			$links->type = $this->type;

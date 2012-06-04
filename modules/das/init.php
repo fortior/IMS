@@ -2,7 +2,7 @@
 
 // Catch-all route for Codebench classes to run
 
-Route::set('api', 'das(/<directory>(/<controller>(/<action>(/<param>))))',array('param'=>'.*'))
+Route::set('DAS', 'das(/<directory>(/<controller>(/<action>(/<param>))))',array('param'=>'.*'))
 	->defaults(array(
 		'controller' => '',
 		'action' => 'main',

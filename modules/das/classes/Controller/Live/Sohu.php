@@ -19,13 +19,14 @@ class Controller_Live_Sohu extends Controller_Live_Core{
 		foreach($data as $k=>$v)
 		{
 			//update or insert to db
-			$links = ORM::factory("Live_Links")->where('vid','=',$v['vid'])->where('type','=','QQ')->find();
+			$links = ORM::factory("Live_Links")->where('vid','=',$v['vid'])->where('type','=',$this->type)->find();
 			$links->vid = $v['vid'];
 			$links->title = $v['title'];
 			$links->type = $this->type;
 			$links->link = "http://gslb.tv.sohu.com/live?cid={$links->vid}&type=hls";
 			$links->available = 1;
 			$links->save();
+			echo Debug::vars($v['title']);
 		}
 	}
 	
@@ -41,8 +42,11 @@ class Controller_Live_Sohu extends Controller_Live_Core{
 
 		preg_match("/data1[^<>]*=[^<>]*([^<>]*)?var/iU",$body,$match);
 
-		$json= trim(preg_replace(array("'data1[^<>]*='","'};[\s][^<>]*var'"),array('','}'),iconv('GBK','UTF-8',$match[0])));
+		$json= trim(preg_replace(array("'data1[^<>]*='","'};[\s][^<>]*var'"),array('','}'),$match[0]));
 
+// 		echo $json;exit;
+		$json = iconv("GBK", "UTF-8//IGNORE", $json);
+		
 		$decode = json_decode($json,TRUE);
 		
 		foreach ($decode['data'] as $k=>$v)

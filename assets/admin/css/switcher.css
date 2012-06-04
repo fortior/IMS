@@ -1,0 +1,10 @@
+.switcher { position: fixed; left: 0; top: 100px; background: url(../images/switcher/bg.png); width: 24px; height: 96px; }
+.switcher ul li { width: 12px; height: 12px; margin: 0 6px 6px 6px; border: none; padding: 0; }
+.switcher ul li:first-child { margin-top: 4px; }
+.switcher ul li.last { margin-bottom: 0; }
+
+.colorSwitch a { position: fixed; left: 0; top: 210px; background: url(../images/switcher/bgColor.png); width: 24px; height: 78px; cursor: pointer; }
+.colorSwitch a:hover { background-position: -24px 0; }
+
+.layoutSwitch a { position: fixed; left: 0; top: 300px; background: url(../images/switcher/liquid.png); width: 24px; height: 78px; cursor: pointer; }
+.layoutSwitch a:hover { background-position: -24px 0; }

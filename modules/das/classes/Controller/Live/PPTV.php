@@ -73,6 +73,11 @@ class Controller_Live_PPTV extends Controller_Live_Core{
 		$body = Tools::curl($url);
 		preg_match("/webcfg\s=(.*);/i",$body,$match);
 	
+		if( ! isset($match[1]))
+		{
+			echo $url; exit;
+		}
+		
 		$data = json_decode($match[1],TRUE);
 		
 		//Not support m3u8

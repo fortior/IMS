@@ -4,14 +4,19 @@ class Controller_EPG_Live extends Controller_Api{
 	
 	function action_main()
 	{
-		$live = ORM::factory("live_epg")->where("active",'=','0')->find_all();
+		$data = array();
+		$live = ORM::factory("live_epg")->where("active",'>','0')->order_by("num","asc")->find_all();
 		
 		foreach($live as $v)
 		{
-			$this->data[] = array("id"=>$v->id,"title"=>$v->title,'links'=>$this->get_links($v->id));
+			$links = $this->get_links($v->id);
+			$link = $links[0];
+			array_shift($links);
+			$backup = $links;
+			$data[] = array("num"=>$v->num,"title"=>$v->title,'link'=>$link,'backup'=>$backup);
 		}	
-			
-		//echo $this->data; exit;
+		$this->data = array('count'=>count($data),'v'=>$data);
+		
 	}
 	function get_links($pid)
 	{

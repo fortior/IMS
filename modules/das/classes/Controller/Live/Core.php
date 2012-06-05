@@ -38,4 +38,17 @@ class Controller_Live_Core extends Controller_DAS{
 		}
 		
 	}
+	/**
+	 * refresh standby links for live_epg table
+	 */
+	function action_refresh()
+	{
+		$epg = ORM::factory('live_epg')->find_all();
+		foreach($epg as $k=>$v)
+		{
+			$count = ORM::factory('live_links')->where('pid','=',$v->id)->where("active",'=','1')->where("available",'=','1')->count_all();
+			$v->standby = $count;
+			$v->save();
+		}
+	}
 }

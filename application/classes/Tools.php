@@ -119,7 +119,7 @@ class Tools {
 	{
 		return @json_decode(@json_encode($object),1);
 	}
-	/*
+	/**
 	 * CURL Data collector which is a simulation browser
 	 * 
 	 */

@@ -22,7 +22,7 @@ else
  * @link http://kohanaframework.org/guide/using.configuration
  * @link http://www.php.net/manual/timezones
  */
-date_default_timezone_set('America/Chicago');
+date_default_timezone_set('Asia/Shanghai');
 
 /**
  * Set the default locale.
@@ -116,9 +116,10 @@ Kohana::modules(array(
 	'orm'        => MODPATH.'orm',        // Object Relationship Mapping
 	'unittest'   => MODPATH.'unittest',   // Unit testing
 	'userguide'  => MODPATH.'userguide',  // User guide and API documentation	
-	'das'  => MODPATH.'das',  // User guide and API documentation	
-	'api'  => MODPATH.'api',  // User guide and API documentation	
-	'admin'  => MODPATH.'admin',  // User guide and API documentation	
+	'das'  => MODPATH.'das',  // Data Acquisition System	
+	'api'  => MODPATH.'api',  // export api data 	
+	'admin'  => MODPATH.'admin',  // administrator web 	
+	'mongodb'  => MODPATH.'mongodb',  // User guide and API documentation	
 	));
 
 /**

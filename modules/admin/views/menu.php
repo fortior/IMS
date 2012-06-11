@@ -1,5 +1,12 @@
 <ul id="menu">
-        	<li class="dash"><a href="index.html" title=""><span>Dashboard</span></a></li>
+            <li class="tables"><a href="#" title="" class="exp"><span>直播管理</span><span class="numberLeft">6</span></a>
+                <ul class="sub">
+                    <li><a href="<?=Kohana::$base_url?>admin/CMS/Live/list" title="">直播台管理</a></li>
+                    <li><a href="<?=Kohana::$base_url?>admin/CMS/LiveLinks/list" title="">直播链接管理</a></li>
+                   
+                </ul>
+            </li>
+    <!--    <li class="dash"><a href="/admin/CMS/Demo/list" title=""><span>直播列表</span></a></li>
             <li class="graphs"><a href="charts.html" title=""><span>Graphs and charts</span></a></li>
             <li class="forms"><a href="form_elements.html" title=""><span>Form elements</span></a></li>
             <li class="login"><a href="ui_elements.html" title=""><span>Interface elements</span></a></li>
@@ -20,5 +27,5 @@
                 </ul>
             </li>
             <li class="pic"><a href="icons.html" title=""><span>Buttons and icons</span></a></li>
-            <li class="contacts"><a href="contacts.html" title=""><span>Contact list</span></a></li>
-        </ul>
+            <li class="contacts"><a href="contacts.html" title=""><span>Contact list</span></a></li> -->
+</ul>

@@ -56,15 +56,21 @@ class Controller_Admin extends Controller{
 	{
 		$this->init();
 
-		$this->template = View::factory('add');
+		$this->template = View::factory('frame');
+		
+		$this->template->content = "form";
 
 		//读取列信息
-		$this->template->columns = $this->blank_form_columns($this->columns);
+		$columns = $this->blank_form_columns($this->columns);
+		View::bind_global("columns", $columns);
 
 		//获取主键名称 用于编辑删除操作
-		$this->template->pk = $this->pk;
+		View::bind_global("pk", $this->pk);
+		
+		$title = "新增".$this->title;
+		View::bind_global("title", $title);
 
-		$this->title = "新增";
+
 	}
 	/**
 	 *
@@ -112,18 +118,24 @@ class Controller_Admin extends Controller{
 	{
 		//初始化 model配置
 		$this->init();
-		$this->template = View::factory('add');
+		$this->template = View::factory('frame');
+		
+		$this->template->content = "form";
+// 		$this->template = View::factory('add');
 		$primary_key = $this->request->param('id');
 		if(empty($primary_key))
 		Admin::error("传入参数错误");
 		$orm = ORM::factory($this->model,$primary_key);
 
       	//读取列信息
-		$this->template->columns = $this->full_form_columns($this->columns,$orm);
-		//获取主键名称 用于编辑删除操作
-		$this->template->pk = $this->pk;
-
-		$this->title = "编辑";
+		$columns = $this->full_form_columns($this->columns,$orm);
+		View::bind_global("columns",$columns);
+		
+		//获取主键名称 用于编辑删除操作		
+		View::bind_global("pk",$this->pk);
+		
+		$title = "编辑".$this->title;
+		View::bind_global("title", $title);
 
 	}
 	/**
@@ -135,25 +147,39 @@ class Controller_Admin extends Controller{
 	{
 		$this->init();
 
-		$this->template = View::factory('list');
+		$this->template = View::factory('frame');
 		
+		$this->template->content = "list";
 		//Datatable 控件默认排序方式
-		$this->template->aasorting = "[0,'desc']";
-	
-		$this->template->obj =  $this;
-
+		
+		$aasorting = "[0,'desc']";
+		View::bind_global("aasorting",$aasorting);
+		
+// 		$this->template->obj =  $this;
+		View::bind_global("obj",$this);
+		
 		//读取列信息
-		$this->template->columns = $this->list_columns($this->columns);
+		$columns = $this->list_columns($this->columns);
+		View::bind_global("columns",$columns);
 
 		//获取主键名称 用于编辑删除操作
-		$this->template->pk = $this->pk;
-
+// 		$this->template->pk = $this->pk;
+		View::bind_global("pk",$this->pk);
+		
 		//数据信息
 		if(isset($this->customer_data))
-		return $this->template->data = $this->customer_data;
+		{
+			$data = $this->customer_data;
+		}		 
 		else
-		return $this->template->data = ORM::factory($this->model)->limit(1000)->find_all();
-
+		{
+			$data = ORM::factory($this->model)->limit(1000)->find_all();
+		}	
+		View::bind_global("data",$data);
+		
+		$title = $this->title."列表";
+		View::bind_global("title", $title);
+		return $data;
 
 	}
 	function action_toggle()
@@ -187,15 +213,10 @@ class Controller_Admin extends Controller{
 		}
 		if (!empty($this->template))
 		{
-			View::bind_global('title', $this->title);
-			$this->menu();
-			//URL 前缀
-			$this->template->pre_uri = URL::site('admin/'.$this->request->directory().'/'.$this->request->controller().'/');
-
-			$this->template->info = $this->info;
-			$this->template->error = $this->error ;
-			$this->template->warning = $this->warning ;
-			$this->template->success = $this->success ;
+			
+			$pre_uri = URL::site('admin/'.$this->request->directory().'/'.$this->request->controller().'/');
+			View::bind_global('pre_uri', $pre_uri);
+			
 
 			$this->response->body($this->template->render());
 		}
@@ -243,11 +264,11 @@ class Controller_Admin extends Controller{
 		foreach($col as $k=>$v)
 		{
 			//为编辑表单赋值
-			$data[$v]['field'] = Form::input($v,$orm->$v,array('id'=>'_'.$v,'class'=>'half title'));
+			$data[$v]['field'] = Form::input($v,$orm->$v,array('id'=>'_'.$v,'class'=>'required'));
 		}
 
 		$pk = $this->pk;
-		$data[$this->pk]['field'] = Form::input($this->pk,$orm->$pk,array('id'=>'_'.$this->pk,'class'=>'half title','readonly'=>'readonly'));
+		$data[$this->pk]['field'] = Form::input($this->pk,$orm->$pk,array('id'=>'_'.$this->pk,'class'=>'required','readonly'=>'readonly'));
 		$data[$this->pk]['validate']['rules'] = '{required: false}';
 		return $data;
 	}

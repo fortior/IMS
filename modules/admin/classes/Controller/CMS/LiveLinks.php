@@ -1,14 +1,17 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
- * Demo
- * @author Shunnar
+ *  Cache管理
+ *
+ * @package    Kohana/Admin/Cache
+ * @category   Controllers
+ * @author     Shunnar
  */
-class Controller_CMS_Demo extends Controller_Admin{
+class Controller_CMS_LiveLinks extends Controller_Admin{
 	
 	function before()
 	{		
-		$this->model = "live_epg";
-		$this->title = "直播节目";	
+		$this->model = "Live_Links";
+		$this->title = "直播链接";	
 		
 //		$this->info ="xxxxxxx";
 //		$this->error = "aaaaaaaaaaa";

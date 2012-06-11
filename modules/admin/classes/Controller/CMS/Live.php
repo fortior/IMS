@@ -1,13 +1,12 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
- * Demo
- * @author Shunnar
+ *
  */
-class Controller_CMS_Demo extends Controller_Admin{
+class Controller_CMS_Live extends Controller_Admin{
 	
 	function before()
 	{		
-		$this->model = "live_epg";
+		$this->model = "Live_EPG";
 		$this->title = "直播节目";	
 		
 //		$this->info ="xxxxxxx";

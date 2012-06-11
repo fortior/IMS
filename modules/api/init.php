@@ -8,3 +8,9 @@ Route::set('api', 'api(/<directory>(/<controller>(/<action>(/<param>))))',array(
 		'action' => 'main',
 		'directory'  => '',
 		));
+Route::set('Api', 'Api(/<directory>(/<controller>(/<action>(/<param>))))',array('param'=>'.*'))
+	->defaults(array(
+		'controller' => '',
+		'action' => 'main',
+		'directory'  => '',
+		));

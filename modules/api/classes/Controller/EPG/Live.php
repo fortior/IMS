@@ -25,7 +25,7 @@ class Controller_EPG_Live extends Controller_Api{
 			//data construct
 			$data[] = array("num"=>$v->num,"title"=>$v->title,'link'=>$link,'backup'=>$backup);
 		}	
-		$this->data = array('count'=>count($data),'v'=>$data);
+		$this->data = array("ret"=>0,'count'=>count($data),'v'=>$data);
 		
 	}
 	/**

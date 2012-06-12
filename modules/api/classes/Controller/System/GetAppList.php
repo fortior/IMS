@@ -8,30 +8,6 @@ class Controller_System_GetAppList extends Controller_Api{
 	
 	function action_main()
 	{
-// 		
-// 		$data = array(
-// 				"Response"=>array(
-// 							"header"=>array(
-// 									"rc"=>0,
-// 									"rm"=>"成功",
-// 									),
-// 							"body"=>array(
-// 									0=>array(
-// 											"apkname"=>"直播天下",
-// 											"packagename"=>"com.fondcoo.live",
-// 											"statu"=>"0",
-// 											"version"
-// 											),
-// 									1=>array(
-// 											"apkname"=>"PPTV",
-// 											"packagename"=>"com.fondcoo.vod",
-// 											"statu"=>"0",
-// 											"version"
-// 											)
-// 									)
-// 						)
-// 				);
-
 		$data = array(
 					"ret"=>0,
 					"msg"=>"成功",

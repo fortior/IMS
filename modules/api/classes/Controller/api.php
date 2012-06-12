@@ -42,9 +42,9 @@ class Controller_Api extends Controller{
 			}
 		}
 	}
-	function error_code($code = 1)
+	function error_code($code = 1,$message="")
 	{
-		return array('ret'=>$code);
+		return array('ret'=>$code,"msg"=>$message);
 	}
 
 }

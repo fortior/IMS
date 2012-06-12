@@ -4,7 +4,7 @@
  * @author Shunnar
  *
  */
-class Controller_Helper_Program extends Controller_Api{
+class Controller_Helper_GetProgram extends Controller_Api{
 	
 	function action_main()
 	{

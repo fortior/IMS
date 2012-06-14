@@ -49,8 +49,10 @@ class Controller_Admin extends Controller{
 
 		//获取主键名称 用于编辑删除操作
 		$this->pk = ORM::factory($this->model)->primary_key();
-
-
+		
+		$count = ORM::factory($this->model)->count_all();
+		View::bind_global("count", $count);
+		
 	}
 	function action_add()
 	{
@@ -92,7 +94,12 @@ class Controller_Admin extends Controller{
 		$orm = ORM::factory($this->model,$primary_key);
 		foreach($this->columns as $k=>$v)
 		{
-			$orm->$v = isset($data[$v])?$data[$v]:'';
+			//empty data wont inset or update
+			if(isset($data[$v]))
+			{
+				$orm->$v = $data[$v];
+			}
+			
 		}
 		$orm->save();
 		return $orm->pk();
@@ -353,9 +360,9 @@ class Controller_Admin extends Controller{
 	protected  function toggle($col,$id,$bool)
 	{
 		if($bool)
-		$toggle = "<a href='./toggle/?c=".$col."&id=".$id."' class='toggle' onmouseover='currentToggle(\"".$col.$id."\")'><img id='".$col.$id."' src='".Kohana::$base_url."assets/admin/img/accept.png'/></a>";
+		$toggle = "<a href='./toggle/?c=".$col."&id=".$id."' class='toggle' onmouseover='currentToggle(\"".$col.$id."\")'><img id='".$col.$id."' src='".Kohana::$base_url."assets/admin/images/icons/color/tick.png'/></a>";
 		else
-		$toggle = "<a href='./toggle/?c=".$col."&id=".$id."' class='toggle' onmouseover='currentToggle(\"".$col.$id."\")'><img id='".$col.$id."' src='".Kohana::$base_url."assets/admin/img/delete.png'/></a>";
+		$toggle = "<a href='./toggle/?c=".$col."&id=".$id."' class='toggle' onmouseover='currentToggle(\"".$col.$id."\")'><img id='".$col.$id."' src='".Kohana::$base_url."assets/admin/images/icons/color/cross.png'/></a>";
 
 
 		return $toggle;

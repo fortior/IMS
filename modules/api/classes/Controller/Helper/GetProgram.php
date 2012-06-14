@@ -40,7 +40,7 @@ class Controller_Helper_GetProgram extends Controller_Api{
 			foreach($tomorrow as $k=>$v)
 			{
 				$intercept_tomorrow[] = $v;
-				if(strtotime($v[0]) > time())
+				if(strtotime($v[0]) > time()+24*3600)
 				{					
 					break;
 				}
@@ -59,12 +59,15 @@ class Controller_Helper_GetProgram extends Controller_Api{
 	{
 		if( ! empty($date))
 		{
-			$date = date('N',strtotime($date));
+			$timestamp = strtotime($date);
+			
 		}
 		else
 		{
-			$date = date("N");
+			$timestamp = time();
 		}
+		$date = date('N',$timestamp);
+	
 		$program_tvmao = MangoDB::instance()->find_one('program_tvmao',array('station'=>$station,'day'=>$date));
 		if(empty($program_tvmao))
 		{
@@ -75,7 +78,7 @@ class Controller_Helper_GetProgram extends Controller_Api{
 			$data =array();	
 			foreach($program_tvmao['program'] as $k=>$v)
 			{
-				array_push($data, array(date("Y-m-d")." ".$k.":00",$v));
+				array_push($data, array(date("Y-m-d",$timestamp)." ".$k.":00",$v));
 			}
 			return $data;
 		}

@@ -6,12 +6,12 @@
  * @category   Controllers
  * @author     Shunnar
  */
-class Controller_CMS_LiveLinks extends Controller_Admin{
+class Controller_CMS_UpgradePackage extends Controller_Admin{
 	
 	function before()
 	{		
-		$this->model = "Live_Links";
-		$this->title = "直播链接";	
+		$this->model = "Upgrade_Package";
+		$this->title = "升级包";	
 		
 //		$this->info ="xxxxxxx";
 //		$this->error = "aaaaaaaaaaa";
@@ -31,21 +31,12 @@ class Controller_CMS_LiveLinks extends Controller_Admin{
 	 */
 	function list_columns($data)
 	{
-		return parent::list_columns($data);	
+		$data =  parent::list_columns($data);	
+		unset($data['path']);
+		return $data;
 	}
 	
-	function action_list()
-	{
-		$data = parent::action_list();
-		foreach($data as $k=>$v)
-		{
-			$_data[$k] = $v;
-			
-			$_data[$k]->active = $this->toggle('active',$v->id,$v->active);
-			$_data[$k]->available = $this->toggle('available',$v->id,$v->available);
-		}
-		View::bind_global("data",$_data);
-	}
+	
 	/**
 	 * 改写默认表单基本信息
 	 * @example
@@ -60,8 +51,12 @@ class Controller_CMS_LiveLinks extends Controller_Admin{
 	 */
 	protected function blank_form_columns($col,$return_id=FALSE)
 	{
-		$data = parent::blank_form_columns($col,$return_id);	
-		$data['pid']['field'] = Form::select("pid",$this->get_live_epg(),1);
+		$data = parent::blank_form_columns($col,$return_id);
+		$data['package_name']['field'] = Form::file('package');
+		$data['info']['field'] = Form::textarea("info");
+		unset($data['md5']);	
+		unset($data['path']);
+// 		$data['pid']['field'] = Form::select("pid",$this->get_live_epg(),1);
 		return $data;
 	}
 	
@@ -76,7 +71,9 @@ class Controller_CMS_LiveLinks extends Controller_Admin{
 	protected function full_form_columns($col,$orm=NULL)
 	{
 		$data =  parent::full_form_columns($col,$orm);
-		$data['pid']['field'] ='<div class="searchDrop">' .  Form::select("pid",$this->get_live_epg(),$orm->pid,array("data-placeholder"=>"Choose a name",'class'=>'chzn-select')) . '<input type="button" onclick="window.location.href=\'../insert_epg/'.$orm->id.'\'" value="+" class="blueBtn"> </div>' . ' ' ;
+		unset($data['md5']);
+		unset($data['path']);
+// 		$data['pid']['field'] ='<div class="searchDrop">' .  Form::select("pid",$this->get_live_epg(),$orm->pid,array("data-placeholder"=>"Choose a name",'class'=>'chzn-select')) . '<input type="button" onclick="window.location.href=\'../insert_epg/'.$orm->id.'\'" value="+" class="blueBtn"> </div>' . ' ' ;
 		return $data;
 	}
 	/**
@@ -89,22 +86,40 @@ class Controller_CMS_LiveLinks extends Controller_Admin{
 		return parent::handle($id);		
 	}
 	/**
-	 * 
-	 * @return array
-	 * Live station array option
+	 * overwrite
+	 * @see Controller_Admin::action_save()
 	 */
-	private function get_live_epg()
+	public function action_save()
 	{
-		$live_epg = ORM::factory("Live_EPG")->find_all()->as_array('id','title');
-		return $live_epg;
-	}
+		
+		if ( ! empty($_FILES) && Upload::valid($_FILES['package']))
+		{
 	
-	public function action_insert_epg()
-	{
-		$id = $this->request->param('id');
-		echo Debug::vars($this->request->uri()); exit;
-		$this->redirect("/admin/CMS/LiveLinks/edit/".$id);
-		//exit('a');
+		    Upload::$default_directory = "assets/uploads/upgrade/";
+		    
+		    if(! is_dir(Upload::$default_directory))
+		    {
+		    	mkdir(Upload::$default_directory,"0777",1);
+		    }
+		   
+		    $package_name = $_FILES['package']['name'];		    
+		    
+		    $md5 = md5_file($_FILES["package"]["tmp_name"]);
+		    
+		    $ext = substr(strrchr($package_name, '.'), 1);
+		    
+		   // Upload is valid, save it
+			$filename = Upload::save($_FILES['package'],$md5.'.'.$ext);
+			
+		      
+		    $this->request->post('package_name',$package_name);
+		    $this->request->post('md5',$md5);
+		    $this->request->post('path',Upload::$default_directory.$md5.'.'.$ext);
+		   
+		    
+		}
+		parent::action_save();
+		
 	}
 	
 	

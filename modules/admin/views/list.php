@@ -9,8 +9,11 @@
         //$('#datalist').dataTable();
     })
     </script>
-<div class="title"><h5><?=$title?></h5></div>
+
+
+    <div class="title"><h5><?=$title?></h5></div>
         <!-- Dynamic table -->
+
         <div class="table">
             <div class="head"><h5 class="iFrames">Data table</h5></div>
             <table cellpadding="0" cellspacing="0" border="0" class="display" id="datalist">

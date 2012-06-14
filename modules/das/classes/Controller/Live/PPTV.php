@@ -16,7 +16,7 @@ class Controller_Live_PPTV extends Controller_Live_Core{
 	public function action_main()
 	{
 		$data = $this->collect();
-		
+		//echo Debug::vars($data); exit;
 		if($data)
 		{
 			//reset available to false first
@@ -75,7 +75,9 @@ class Controller_Live_PPTV extends Controller_Live_Core{
 	
 		if( ! isset($match[1]))
 		{
-			echo $url; exit;
+			echo $url; 
+			
+			return ;
 		}
 		
 		$data = json_decode($match[1],TRUE);

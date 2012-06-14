@@ -30,7 +30,7 @@
     })
 </script>
 <div class="title"><h5><?=$title?></h5></div>
-<form id="formValidate" class="mainForm" method="post" action="<?=$pre_uri?>/save">
+<form id="formValidate" class="mainForm" method="post" action="<?=$pre_uri?>/save" enctype="multipart/form-data" >
         	<fieldset>
                 <div class="widget">
                     <div class="head"><h5 class="iLocked">填写下面表单</h5></div>

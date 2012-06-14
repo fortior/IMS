@@ -32,7 +32,14 @@ class Controller_CMS_Live extends Controller_Admin{
 	
 	function action_list()
 	{
-		parent::action_list();
+		$data = parent::action_list();
+		foreach($data as $k=>$v)
+		{
+			$_data[$k] = $v;
+			
+			$_data[$k]->active = $this->toggle('active',$v->id,$v->active);
+		}
+		View::bind_global("data",$_data);
 // 		$this->template->aasorting = "[0,'asc']";
 	}
 	/**

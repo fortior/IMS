@@ -1,11 +1,20 @@
 <ul id="menu">
-            <li class="tables"><a href="#" title="" class="exp"><span>直播管理</span><span class="numberLeft">6</span></a>
+            <li class="tables"><a href="#" title="" class=" active"><span>直播管理</span></a>
                 <ul class="sub">
                     <li><a href="<?=Kohana::$base_url?>admin/CMS/Live/list" title="">直播台管理</a></li>
                     <li><a href="<?=Kohana::$base_url?>admin/CMS/LiveLinks/list" title="">直播链接管理</a></li>
                    
                 </ul>
             </li>
+             <li class="tables"><a href="#" title="" class="active"><span>升级管理</span></a>
+                <ul class="sub">
+                    <li><a href="<?=Kohana::$base_url?>admin/CMS/UpgradeSetup/list" title="">升级配置</a></li>                                       
+                    <li><a href="<?=Kohana::$base_url?>admin/CMS/UpgradePackage/list" title="">升级包上传管理</a></li>                                       
+                    <li><a href="<?=Kohana::$base_url?>admin/CMS/UpgradeVer/list" title="">升级版本管理</a></li>                                       
+                </ul>
+            </li>
+            
+
     <!--    <li class="dash"><a href="/admin/CMS/Demo/list" title=""><span>直播列表</span></a></li>
             <li class="graphs"><a href="charts.html" title=""><span>Graphs and charts</span></a></li>
             <li class="forms"><a href="form_elements.html" title=""><span>Form elements</span></a></li>

@@ -36,8 +36,15 @@ class Controller_CMS_LiveLinks extends Controller_Admin{
 	
 	function action_list()
 	{
-		parent::action_list();
-// 		$this->template->aasorting = "[0,'asc']";
+		$data = parent::action_list();
+		foreach($data as $k=>$v)
+		{
+			$_data[$k] = $v;
+			
+			$_data[$k]->active = $this->toggle('active',$v->id,$v->active);
+			$_data[$k]->available = $this->toggle('available',$v->id,$v->available);
+		}
+		View::bind_global("data",$_data);
 	}
 	/**
 	 * 改写默认表单基本信息
@@ -53,7 +60,9 @@ class Controller_CMS_LiveLinks extends Controller_Admin{
 	 */
 	protected function blank_form_columns($col,$return_id=FALSE)
 	{
-		return parent::blank_form_columns($col,$return_id);		
+		$data = parent::blank_form_columns($col,$return_id);	
+		$data['pid']['field'] = Form::select("pid",$this->get_live_epg(),1);
+		return $data;
 	}
 	
 	/**
@@ -66,7 +75,9 @@ class Controller_CMS_LiveLinks extends Controller_Admin{
 	 */
 	protected function full_form_columns($col,$orm=NULL)
 	{
-		return parent::full_form_columns($col,$orm);
+		$data =  parent::full_form_columns($col,$orm);
+		$data['pid']['field'] ='<div class="searchDrop">' .  Form::select("pid",$this->get_live_epg(),$orm->pid,array("data-placeholder"=>"Choose a name",'class'=>'chzn-select')) . '<input type="button" onclick="window.location.href=\'../insert_epg/'.$orm->id.'\'" value="+" class="blueBtn"> </div>' . ' ' ;
+		return $data;
 	}
 	/**
 	 * 每一条数据操作按钮
@@ -76,6 +87,24 @@ class Controller_CMS_LiveLinks extends Controller_Admin{
 	public static function handle($id)
 	{
 		return parent::handle($id);		
+	}
+	/**
+	 * 
+	 * @return array
+	 * Live station array option
+	 */
+	private function get_live_epg()
+	{
+		$live_epg = ORM::factory("Live_EPG")->find_all()->as_array('id','title');
+		return $live_epg;
+	}
+	
+	public function action_insert_epg()
+	{
+		$id = $this->request->param('id');
+		echo Debug::vars($this->request->uri()); exit;
+		$this->redirect("/admin/CMS/LiveLinks/edit/".$id);
+		//exit('a');
 	}
 	
 	

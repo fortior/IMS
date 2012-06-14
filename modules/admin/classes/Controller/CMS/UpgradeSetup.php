@@ -1,17 +1,17 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
- *  Cache管理
+ *  升级版本管理
  *
  * @package    Kohana/Admin/Cache
  * @category   Controllers
  * @author     Shunnar
  */
-class Controller_CMS_LiveLinks extends Controller_Admin{
+class Controller_CMS_UpgradeSetup extends Controller_Admin{
 	
 	function before()
 	{		
-		$this->model = "Live_Links";
-		$this->title = "直播链接";	
+		$this->model = "Upgrade_Setup";
+		$this->title = "升级";	
 		
 //		$this->info ="xxxxxxx";
 //		$this->error = "aaaaaaaaaaa";
@@ -31,9 +31,10 @@ class Controller_CMS_LiveLinks extends Controller_Admin{
 	 */
 	function list_columns($data)
 	{
-		return parent::list_columns($data);	
+		$data = parent::list_columns($data);
+		$data['package']['func'] = "get_package_name";
+		return $data;	
 	}
-	
 	function action_list()
 	{
 		$data = parent::action_list();
@@ -42,10 +43,11 @@ class Controller_CMS_LiveLinks extends Controller_Admin{
 			$_data[$k] = $v;
 			
 			$_data[$k]->active = $this->toggle('active',$v->id,$v->active);
-			$_data[$k]->available = $this->toggle('available',$v->id,$v->available);
+		
 		}
 		View::bind_global("data",$_data);
 	}
+	
 	/**
 	 * 改写默认表单基本信息
 	 * @example
@@ -60,8 +62,13 @@ class Controller_CMS_LiveLinks extends Controller_Admin{
 	 */
 	protected function blank_form_columns($col,$return_id=FALSE)
 	{
-		$data = parent::blank_form_columns($col,$return_id);	
-		$data['pid']['field'] = Form::select("pid",$this->get_live_epg(),1);
+		$data = parent::blank_form_columns($col,$return_id);
+		$data['from']['field'] = Form::select("from",$this->get_upgrade_version(),1);
+		$data['to']['field'] = Form::select("to",$this->get_upgrade_version(),1);
+		$data['package']['field'] = Form::select("package",$this->get_upgrade_package(),1);
+		unset($data['created']);
+		unset($data['active']);
+		
 		return $data;
 	}
 	
@@ -76,7 +83,11 @@ class Controller_CMS_LiveLinks extends Controller_Admin{
 	protected function full_form_columns($col,$orm=NULL)
 	{
 		$data =  parent::full_form_columns($col,$orm);
-		$data['pid']['field'] ='<div class="searchDrop">' .  Form::select("pid",$this->get_live_epg(),$orm->pid,array("data-placeholder"=>"Choose a name",'class'=>'chzn-select')) . '<input type="button" onclick="window.location.href=\'../insert_epg/'.$orm->id.'\'" value="+" class="blueBtn"> </div>' . ' ' ;
+		$data['from']['field'] = Form::select("from",$this->get_upgrade_version(),$orm->from);
+		$data['to']['field'] = Form::select("to",$this->get_upgrade_version(),$orm->to);
+		$data['package']['field'] = Form::select("package",$this->get_upgrade_package(),$orm->package);
+		unset($data['created']);
+		unset($data['active']);
 		return $data;
 	}
 	/**
@@ -89,22 +100,32 @@ class Controller_CMS_LiveLinks extends Controller_Admin{
 		return parent::handle($id);		
 	}
 	/**
-	 * 
-	 * @return array
-	 * Live station array option
+	 * 获取升级版本信息
 	 */
-	private function get_live_epg()
+	private function get_upgrade_version()
 	{
-		$live_epg = ORM::factory("Live_EPG")->find_all()->as_array('id','title');
-		return $live_epg;
+		$version = ORM::factory("Upgrade_Ver")->find_all()->as_array("name","name");
+
+		return $version;
 	}
-	
-	public function action_insert_epg()
+	/**
+	 * 获取升级版本信息
+	 */
+	private function get_upgrade_package()
 	{
-		$id = $this->request->param('id');
-		echo Debug::vars($this->request->uri()); exit;
-		$this->redirect("/admin/CMS/LiveLinks/edit/".$id);
-		//exit('a');
+		$package = ORM::factory("Upgrade_Package")->find_all()->as_array("id","package_name");
+	
+		return $package;
+	}
+	public static function get_package_name($package_id)
+	{
+		$anchor = "";
+		$package = ORM::factory("Upgrade_Package",$package_id);
+		if($package->loaded())
+		{
+			$anchor = HTML::anchor("/".$package->path,$package->package_name,array('target'=>"_blank"));
+		}
+		return $anchor;
 	}
 	
 	

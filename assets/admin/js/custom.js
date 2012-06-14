@@ -579,10 +579,10 @@ contextmenu : {
 		
 	//===== Tooltip =====//
 		
-	$('.leftDir').tipsy({fade: true, gravity: 'e'});
-	$('.rightDir').tipsy({fade: true, gravity: 'w'});
-	$('.topDir').tipsy({fade: true, gravity: 's'});
-	$('.botDir').tipsy({fade: true, gravity: 'n'});
+	// $('.leftDir').tipsy({fade: true, gravity: 'e'});
+	// $('.rightDir').tipsy({fade: true, gravity: 'w'});
+	// $('.topDir').tipsy({fade: true, gravity: 's'});
+	// $('.botDir').tipsy({fade: true, gravity: 'n'});
 
 		
 	//===== Information boxes =====//
@@ -803,7 +803,54 @@ contextmenu : {
 
 
 
+	
+	
+	$("a[target=_ajax]").fancybox();
 
+	$("a[target=_iframe]").fancybox({
+
+					'width'				: '75%',
+
+					'height'			: '75%',
+
+					'autoScale'			: false,
+
+					'transitionIn'		: 'none',
+
+					'transitionOut'		: 'none',
+
+					'type'				: 'iframe'
+
+				});
+
+
+	$(".toggle").fancybox({
+				onComplete:function(data,a,c){
+				var test = c;
+				toggle_on  = base_url+"assets/admin/images/icons/color/tick.png";
+				toggle_off = base_url+"assets/admin/images/icons/color/cross.png";
+				cur_img = $("#"+current).attr('src');
+				console.log($("#"+current).attr('src'));
+				console.log(toggle_on);
+				if(!current) return false;
+				if(cur_img == toggle_on){
+					$("#"+current).attr('src',toggle_off)
+				}
+				else if(cur_img == toggle_off){
+					$("#"+current).attr('src',toggle_on)
+				}
+
+				}
+			});
+
+	
+
+	//toggle action
+	
 
 	
 });
+var currentToggle = function(currentID){
+
+		current = currentID;
+	}

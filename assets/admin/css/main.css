@@ -248,6 +248,8 @@ input[type=submit], input[type=reset], input[type=button], button, .button { fon
 .middleNav ul li a span { display: block; padding: 34px 10px 0 10px; }
 
 .middleNav ul li.iMes a span { background: url(../images/icons/middlenav/dialog.png) no-repeat 50% 10px; }
+.middleNav ul li.iAdd a span { background: url(../images/icons/middlenav/add.png) no-repeat 50% 10px; }
+.middleNav ul li.iList a span { background: url(../images/icons/middlenav/list.png) no-repeat 50% 10px; }
 .middleNav ul li.iStat a span { background: url(../images/icons/middlenav/graph.png) no-repeat 50% 10px; }
 .middleNav ul li.iUser a span { background: url(../images/icons/middlenav/users.png) no-repeat 50% 10px; }
 .middleNav ul li.iOrders a span { background: url(../images/icons/middlenav/money.png) no-repeat 50% 10px; }

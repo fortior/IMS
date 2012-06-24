@@ -46,5 +46,39 @@ class Controller_Api extends Controller{
 	{
 		return array('ret'=>$code,"msg"=>$message);
 	}
+	/**
+	 * Basic param check 
+	 */
+	protected function _valid()
+	{
+		$_valid['field'] = array('deviceid','mac','version');
+		foreach ($_valid['field'] as $key)
+		{
+			//can not be null
+			$value = $this->request->query($key);
+			if ( ! $value)
+			{	
+				$this->data = self::error_code(-2,$key.' is invalid');
+				return FALSE;
+			}
+			
+			switch ($key)
+			{
+				case 'mac':
+				if( ! preg_match("/[A-F\d]{2}:[A-F\d]{2}:[A-F\d]{2}:[A-F\d]{2}:[A-F\d]{2}:[A-F\d]{2}/", $value))
+				{
+					$this->data = self::error_code(-2,'invalid mac format, only support FF:FF:FF:FF:FF:FF');
+					return FALSE;
+				}
+				break;		
+			}
+			
+			
+			
+			
+		}
+		return TRUE;
+	
+	}
 
 }

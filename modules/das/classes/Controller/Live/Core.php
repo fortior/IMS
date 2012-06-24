@@ -19,7 +19,7 @@ class Controller_Live_Core extends Controller_DAS{
 	{
 		$epg = ORM::factory('live_epg')->find_all()->as_array("title",'id');
 		//echo Debug::vars($epg);exit;
-		$links = ORM::factory('live_links')->find_all();
+		$links = ORM::factory('live_links')->where('pid','=',NULL)->find_all();
 		foreach($links as $v)
 		{
 			//$title = str_replace("[", "", $v->title);
@@ -32,9 +32,10 @@ class Controller_Live_Core extends Controller_DAS{
 				{
 					$v->pid = $id;
 					$v->save();
+					echo $this->ajax_message($v->title.'关联成功');
 				}
 			}
-			
+			echo $this->ajax_message('操作完成');
 		}
 		
 	}
@@ -48,7 +49,17 @@ class Controller_Live_Core extends Controller_DAS{
 		{
 			$count = ORM::factory('live_links')->where('pid','=',$v->id)->where("active",'=','1')->where("available",'=','1')->count_all();
 			$v->standby = $count;
+			//$v->num = $k+1;
 			$v->save();
 		}
+		echo $this->ajax_message('更新成功');
+		
+	}
+	function ajax_message($str,$title='SUCCESS')
+	{
+		$html =  '<div class="nNote nSuccess hideit">
+		<p><strong>' . $title . ': </strong>' . $str . '</p>
+		</div>';
+		return $html;
 	}
 }

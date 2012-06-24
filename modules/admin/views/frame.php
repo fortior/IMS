@@ -104,7 +104,7 @@ var base_url = "<?=Kohana::$base_url?>" ;
             <li class="iStat"><a href="#" title=""><span>Statistics</span></a></li>
             <li class="iUser"><a href="#" title=""><span>User list</span></a></li>
             <li class="iOrders"><a href="#" title=""><span>Billing panel</span></a></li> -->
-            <?if(isset($content)):?>
+            <?if(isset($count)):?>
             <li class="iAdd"><a href="./add" title=""><span>添加新数据</span></a></li>
             <li class="iList"><a href="./list" title=""><span>返回数据列表</span></a><span class="numberMiddle"><?=$count?></span></li>
             <?endif;?>

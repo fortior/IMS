@@ -3,7 +3,11 @@
                 <ul class="sub">
                     <li><a href="<?=Kohana::$base_url?>admin/CMS/Live/list" title="">直播台管理</a></li>
                     <li><a href="<?=Kohana::$base_url?>admin/CMS/LiveLinks/list" title="">直播链接管理</a></li>
-                   
+                    <li><a href="<?=Kohana::$base_url?>das/Live/Core/refresh" target="_ajax" title="">更新节目列表缓存</a></li>
+                    <li><a href="<?=Kohana::$base_url?>das/Live/Core/Setup" target="_ajax" title="">节目链接自动关联</a></li>
+                    <li><a href="<?=Kohana::$base_url?>das/Live/Sohu" target="_iframe" title="">同步搜狐直播</a></li>
+                    <li><a href="<?=Kohana::$base_url?>das/Live/PPTV" target="_ajax" title="">同步PPTV直播</a></li>
+                    <li><a href="<?=Kohana::$base_url?>das/Live/QQ" target="_ajax" title="">同步QQ直播</a></li>
                 </ul>
             </li>
              <li class="tables"><a href="#" title="" class="active"><span>升级管理</span></a>

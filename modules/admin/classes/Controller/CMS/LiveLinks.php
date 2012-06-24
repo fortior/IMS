@@ -102,7 +102,21 @@ class Controller_CMS_LiveLinks extends Controller_Admin{
 	public function action_insert_epg()
 	{
 		$id = $this->request->param('id');
-		echo Debug::vars($this->request->uri()); exit;
+		$links = ORM::factory('Live_Links',$id);
+		if($links->loaded())
+		{			
+			//Search for max num
+			$max = ORM::factory("Live_EPG")->select(DB::expr("max(num) as max"))->find()->max;
+			$live_epg = ORM::factory("Live_EPG");
+			$live_epg->num = $max+1;
+			$live_epg->title = $links->title;
+			$live_epg->save();
+			$links->pid = $live_epg->pk();
+			$links->save();
+		}
+		
+		
+		
 		$this->redirect("/admin/CMS/LiveLinks/edit/".$id);
 		//exit('a');
 	}

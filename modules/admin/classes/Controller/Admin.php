@@ -24,14 +24,55 @@ class Controller_Admin extends Controller{
 	function before()
 	{
 		parent::before();
-// 		if(!Auth::instance()->logged_in('admin'))
-// 		{
-// 			Session::instance()->set('returnUrl',$this->request->uri());
-// 			$this->request->redirect('/admin/common/main/login/对不起您的权限不够');
-// 		}
+		$this->auth();
 		Kohana_Log::$write_on_add = TRUE;
 	}
-
+	private function auth()
+	{
+		
+		$user = Cookie::get('user');
+		
+		
+		if( ! $user AND Cookie::get('needsubmit') != 1) 
+		{
+			$_SERVER['PHP_AUTH_USER'] = '';
+			$_SERVER['PHP_AUTH_PW'] = '';
+		}
+		$user = Arr::get($_SERVER, "PHP_AUTH_USER");
+		$pw = Arr::get($_SERVER, "PHP_AUTH_PW");
+		
+		if ($user != "admin" || $pw != "admin" )
+		{
+			Cookie::set('needsubmit',"1");
+			header('WWW-Authenticate: Basic realm="realm"');
+			header('HTTP/1.0 401 Unauthorized');
+			exit;
+		} else {
+			Cookie::set('user',"admin");
+			
+		}
+	}
+	
+	public function action_logout()
+	{
+		
+		Cookie::delete('user');
+		Cookie::set('needsubmit',"0");
+		$this->redirect('admin');
+	}
+	private function check_password($user,$pw)
+	{
+		$data['fondcoo'] = "fondcoosz";
+		if(isset($data[$user]) AND $data[$user] = $pw)
+		{
+			return ucfirst($user);
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+	
 
 	/**
 	 *

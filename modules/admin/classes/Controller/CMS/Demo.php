@@ -6,7 +6,7 @@
  * @category   Controllers
  * @author     Shunnar
  */
-class Controller_CMS_LiveLinks extends Controller_Admin{
+class Controller_CMS_Demo extends Controller_Admin{
 	
 	function before()
 	{		

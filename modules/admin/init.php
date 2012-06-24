@@ -4,7 +4,7 @@
 
 Route::set('admin', 'admin(/<directory>(/<controller>(/<action>(/<id>))))',array('param'=>'.*'))
 	->defaults(array(
-		'controller' => '',
+		'controller' => 'Dashboard',
 		'action' => 'main',
 		'directory'  => '',
 		));

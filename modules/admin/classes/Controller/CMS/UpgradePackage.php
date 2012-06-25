@@ -71,6 +71,7 @@ class Controller_CMS_UpgradePackage extends Controller_Admin{
 	protected function full_form_columns($col,$orm=NULL)
 	{
 		$data =  parent::full_form_columns($col,$orm);
+		$data['package_name']['field'] = Form::file('package');
 		unset($data['md5']);
 		unset($data['path']);
 // 		$data['pid']['field'] ='<div class="searchDrop">' .  Form::select("pid",$this->get_live_epg(),$orm->pid,array("data-placeholder"=>"Choose a name",'class'=>'chzn-select')) . '<input type="button" onclick="window.location.href=\'../insert_epg/'.$orm->id.'\'" value="+" class="blueBtn"> </div>' . ' ' ;
@@ -92,7 +93,7 @@ class Controller_CMS_UpgradePackage extends Controller_Admin{
 	public function action_save()
 	{
 		
-		if ( ! empty($_FILES) && Upload::valid($_FILES['package']))
+		if ( ! empty($_FILES) && Upload::valid($_FILES['package']) && $_FILES['package']['name'])
 		{
 	
 		    Upload::$default_directory = "assets/uploads/upgrade/";

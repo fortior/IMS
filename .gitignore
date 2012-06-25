@@ -12,3 +12,5 @@ build
 .project
 .settings
 assets/uploads/*
+application/cache/*
+application/logs/*

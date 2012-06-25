@@ -11,7 +11,7 @@ class Controller_Live_QQ extends Controller_Live_Core{
 	{
 		$data = $this->collect();
 		
-		echo Debug::vars($data);
+		
 		if($data)
 		{
 			//reset available to false first
@@ -27,6 +27,7 @@ class Controller_Live_QQ extends Controller_Live_Core{
 			$links->link = "http://zb.v.qq.com:1863/?progid=".$links->vid."&ostype=ios";
 			$links->available = 1;
 			$links->save();
+			echo "<script>$.jGrowl('{$links->title}更新成功');</script>";
 		}
 	}
 	

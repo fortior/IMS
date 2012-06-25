@@ -6,5 +6,5 @@ class Controller_Welcome extends Controller {
 	{
 		$this->response->body('Coming Soon!');
 	}
-
+	
 } // End Welcome

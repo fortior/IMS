@@ -813,7 +813,7 @@ contextmenu : {
 
 					'height'			: '75%',
 
-					'autoScale'			: false,
+					'autoScale'			: true,
 
 					'transitionIn'		: 'none',
 
@@ -823,6 +823,16 @@ contextmenu : {
 
 				});
 
+	$("a[target=_script]").fancybox({
+
+					'opacity'	:true,
+					'overlayShow':false,
+					'showCloseButton':false,
+					'transitionIn':'none',
+				
+					'onComplete':function(){$.fancybox.close()},					
+
+				});
 
 	$(".toggle").fancybox({
 				onComplete:function(data,a,c){

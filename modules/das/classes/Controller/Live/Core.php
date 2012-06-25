@@ -17,9 +17,9 @@ class Controller_Live_Core extends Controller_DAS{
 	 */
 	public function action_setup()
 	{
-		$epg = ORM::factory('live_epg')->find_all()->as_array("title",'id');
+		$epg = ORM::factory('Live_EPG')->find_all()->as_array("title",'id');
 		//echo Debug::vars($epg);exit;
-		$links = ORM::factory('live_links')->where('pid','=',NULL)->find_all();
+		$links = ORM::factory('Live_Links')->where('pid','=',NULL)->find_all();
 		foreach($links as $v)
 		{
 			//$title = str_replace("[", "", $v->title);
@@ -44,10 +44,10 @@ class Controller_Live_Core extends Controller_DAS{
 	 */
 	function action_refresh()
 	{
-		$epg = ORM::factory('live_epg')->find_all();
+		$epg = ORM::factory('Live_EPG')->find_all();
 		foreach($epg as $k=>$v)
 		{
-			$count = ORM::factory('live_links')->where('pid','=',$v->id)->where("active",'=','1')->where("available",'=','1')->count_all();
+			$count = ORM::factory('Live_Links')->where('pid','=',$v->id)->where("active",'=','1')->where("available",'=','1')->count_all();
 			$v->standby = $count;
 			//$v->num = $k+1;
 			$v->save();

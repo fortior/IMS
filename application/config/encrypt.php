@@ -6,5 +6,10 @@ return array
 		'key' => 'FONDCOO514',
 		'mode'=> MCRYPT_MODE_NOFB,
 		'cipher'=> MCRYPT_RIJNDAEL_128,
+	),
+	'default'    => array(
+		'key' => 'FONDCOO514',
+		'mode'=> MCRYPT_MODE_NOFB,
+		'cipher'=> MCRYPT_RIJNDAEL_128,
 	)
 );

@@ -41,7 +41,7 @@ class Controller_Admin extends Controller{
 		$user = Arr::get($_SERVER, "PHP_AUTH_USER");
 		$pw = Arr::get($_SERVER, "PHP_AUTH_PW");
 		
-		if ($user != "admin" || $pw != "admin" )
+		if ($user != "fondcoo" || $pw != "fondcoosz" )
 		{
 			Cookie::set('needsubmit',"1");
 			header('WWW-Authenticate: Basic realm="realm"');

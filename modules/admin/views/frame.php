@@ -83,8 +83,17 @@ var base_url = "<?=Kohana::$base_url?>" ;
         <div class="wrapper">
             <div class="welcome"><a href="#" title=""><img src="<?=Kohana::$base_url?>assets/admin/images/userPic.png" alt="" /></a><span>Howdy, Eugene!</span></div>
             <div class="userNav">
+
                 <ul>
-                    <li><a href="login.html" title=""><img src="<?=Kohana::$base_url?>assets/admin/images/icons/topnav/logout.png" alt="" /><span>Logout</span></a></li>
+                  
+                     <li class="dd"><a href="#" title=""><img src="<?=Kohana::$base_url?>assets/admin/images/icons/topnav/settings.png" alt=""><span>系统设置</span></a>
+                        <ul class="menu_body" style="display: none; ">
+                            <li><a  target="_script" href="<?=Kohana::$base_url?>admin/system/flush" title="" class="sAdd">清除缓存</a></li>
+                         
+                        </ul>    
+                    </li>
+                    <li><a href="./logout" title=""><img src="<?=Kohana::$base_url?>assets/admin/images/icons/topnav/logout.png" alt="" /><span>注销</span></a></li>
+
                 </ul>
             </div>
             <div class="fix"></div>

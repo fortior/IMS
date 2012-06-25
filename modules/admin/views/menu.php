@@ -1,5 +1,5 @@
 <ul id="menu">
-            <li class="tables"><a href="#" title="" class=" active"><span>直播管理</span></a>
+            <li class="tables"><a href="#" title="" class=" exp"><span>直播管理</span></a>
                 <ul class="sub">
                     <li><a href="<?=Kohana::$base_url?>admin/CMS/Live/list" title="">直播台管理</a></li>
                     <li><a href="<?=Kohana::$base_url?>admin/CMS/LiveLinks/list" title="">直播链接管理</a></li>
@@ -7,17 +7,17 @@
                     <li><a href="<?=Kohana::$base_url?>das/Live/Core/Setup" target="_ajax" title="">节目链接自动关联</a></li>
                     <li><a href="<?=Kohana::$base_url?>das/Live/Sohu" target="_iframe" title="">同步搜狐直播</a></li>
                     <li><a href="<?=Kohana::$base_url?>das/Live/PPTV" target="_ajax" title="">同步PPTV直播</a></li>
-                    <li><a href="<?=Kohana::$base_url?>das/Live/QQ" target="_ajax" title="">同步QQ直播</a></li>
+                    <li><a href="<?=Kohana::$base_url?>das/Live/QQ" target="_script" title="">同步QQ直播</a></li>
                 </ul>
             </li>
-             <li class="tables"><a href="#" title="" class="active"><span>升级管理</span></a>
+             <li class="typo"><a href="#" title="" class="exp"><span>升级管理</span></a>
                 <ul class="sub">
                     <li><a href="<?=Kohana::$base_url?>admin/CMS/UpgradeSetup/list" title="">升级配置</a></li>                                       
                     <li><a href="<?=Kohana::$base_url?>admin/CMS/UpgradePackage/list" title="">升级包上传管理</a></li>                                       
                     <li><a href="<?=Kohana::$base_url?>admin/CMS/UpgradeVer/list" title="">升级版本管理</a></li>                                       
                 </ul>
             </li>
-            
+            <li class="files"><a href="<?=Kohana::$base_url?>admin/CMS/SyncApks/list" title=""><span>APK同步</span></a></li>
 
     <!--    <li class="dash"><a href="/admin/CMS/Demo/list" title=""><span>直播列表</span></a></li>
             <li class="graphs"><a href="charts.html" title=""><span>Graphs and charts</span></a></li>

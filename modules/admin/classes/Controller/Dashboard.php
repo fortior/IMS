@@ -1,5 +1,5 @@
 <?php
-class Controller_Dashboard extends Controller{
+class Controller_Dashboard extends Controller_Admin{
 	/**
 	 * Dashboard
 	 */

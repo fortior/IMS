@@ -49,34 +49,38 @@ class Controller_Epg_GetVod extends Controller_Api{
 		//count per page
 		$limit = $this->request->query('limit');
 		
-		$offset = ($page - 1) * $limit;
+		$offset = ($page - 1) * $limit;		
 		
-		$tags_array = explode('|', $tags);
 		
 		$list = ORM::factory("Vod_List");
 
 		$list->where('type','=',$this->type);
-
-		foreach($tags_array as $v)
+		
+		if($tags)
 		{
-			$tag = explode(':',$v);
-			switch ($tag[0])
+			$tags_array = explode('|', $tags);
+			foreach($tags_array as $v)
 			{
-			    case '类型':
-			    	$list->where(DB::expr('find_in_set("'.$tag[1].'",tags)'),'>',0);
-			    	break;
-			    case '年份':
-			        $list->where('year','=',$tag[1]);
-			        break;			    
-			    case '地区':
-			        $list->where('area','=',$tag[1]);
-			    	break;
-			    default:
-			       $list->where(DB::expr('find_in_set("'.$tag[1].'",tags)'),'>',0);
-			        break;
+				$tag = explode(':',$v);
+				switch ($tag[0])
+				{
+					case '类型':
+						$list->where(DB::expr('find_in_set("'.$tag[1].'",tags)'),'>',0);
+						break;
+					case '年份':
+						$list->where('year','=',$tag[1]);
+						break;
+					case '地区':
+						$list->where('area','=',$tag[1]);
+						break;
+					default:
+						$list->where(DB::expr('find_in_set("'.$tag[1].'",tags)'),'>',0);
+						break;
+				}
+					
 			}
-			
 		}
+		
 		$list = $list->offset($offset)->order_by('order','asc')->limit($limit);
 		
  		
@@ -95,12 +99,68 @@ class Controller_Epg_GetVod extends Controller_Api{
 				$data[$k]['imgurl'] = $v->imgurl;
 				$data[$k]['resolution'] = $v->resolution?$v->resolution:"普清";
 				$data[$k]['title'] = $v->title;
-				$data[$k]['playlink'] = $this->get_playlink($v);
+				$data[$k]['area'] = $v->area;
+				$data[$k]['tags'] = trim($v->tags);
+				$data[$k]['year'] = $v->year;
+				$data[$k]['director'] = $v->director;
+				$data[$k]['actor'] = $v->actor;
+				$data[$k]['mark'] = $v->mark;
+				$data[$k]['multiple'] = $v->vid?0:1;
+// 				$data[$k]['episode'] = $v->vid?'1';
+				if($data[$k]['multiple'] == 0)
+				{
+					$data[$k]['playlink'] = $this->get_playlink($v);
+				}	
+				
 				
 			} 
 		}
 		$this->data = array("ret"=>0,'count'=>$count,'v'=>$data);
 		
+	}
+	public function action_detail()
+	{
+		$vid = $this->request->query("vid");
+		$v = ORM::factory("Vod_List",$vid);
+		$data['vid'] = $v->id;
+		$data['title'] = $v->title;
+		$data['imgurl'] = $v->imgurl;
+		$data['resolution'] = $v->resolution?$v->resolution:"普清";
+		$data['title'] = $v->title;
+		$data['area'] = $v->area;
+		$data['tags'] = trim($v->tags);
+		$data['year'] = $v->year;
+		$data['director'] = $v->director;
+		$data['actor'] = $v->actor;
+		$data['mark'] = $v->mark;
+		$data['multiple'] = $v->vid?0:1;
+		$data['description'] = "此处为影片简介，正在做数据采集";
+		if($data['multiple'] == 0)
+		{
+			$data['playlink'] = $this->get_playlink($v);
+		}
+		else
+		{
+			$album = $this->album($vid);
+			if(count($album)>0)
+			foreach($album as $k=>$video)
+			{
+				if(empty($video->title))
+				{
+					break;
+				}
+				$data['album'][$k]['title'] = $video->title;
+				$data['album'][$k]['playlink'] = $this->get_playlink($video);
+			}
+		}
+		
+		$this->data = $data;
+	}
+	private function album($vid)
+	{
+		$album = ORM::factory('Vod_Album')->where('parent_id', "=", $vid)->find_all();
+		
+		return $album;
 	}
 	function get_playlink($v)
 	{
@@ -109,7 +169,7 @@ class Controller_Epg_GetVod extends Controller_Api{
 	/**
 	 * Check
 	 */
-	private function _valid()
+	protected function _valid()
 	{
 		$type = $this->request->query("type");
 		
@@ -130,6 +190,8 @@ class Controller_Epg_GetVod extends Controller_Api{
 		$this->type = $type;
 		return TRUE;
 	}
+	
+
 
 	
 }

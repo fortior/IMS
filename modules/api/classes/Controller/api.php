@@ -10,6 +10,10 @@ class Controller_Api extends Controller{
 	
 	protected $format = "json";
 	
+	protected $rom;
+	
+	protected $customer;
+	
 	function before()
 	{
 		parent::before();
@@ -70,7 +74,17 @@ class Controller_Api extends Controller{
 					$this->data = self::error_code(-2,'invalid mac format, only support FF:FF:FF:FF:FF:FF');
 					return FALSE;
 				}
-				break;		
+				break;	
+				case 'version':
+				$arr = explode('-',$value);
+				if(count($arr) != 3)
+				{
+					$this->data = self::error_code(-2,'invalid version format');
+					return FALSE;
+				}
+				$this->rom = $arr[0];
+				$this->customer = $arr[1];
+					
 			}
 			
 			

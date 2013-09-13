@@ -1,5 +1,5 @@
 	$(function () {
-		var data = [];
+		var data = []; 
 		var series = Math.floor(Math.random()*10)+1;
 		for( var i = 0; i<series; i++)
 		{
